@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Auth;
 using IDP.Application.Handler.Command.User;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -27,7 +28,7 @@ builder.Services.AddSwaggerGen(Options =>
     });
 });
 
-builder.Services.AddMediatR(typeof(UserHandler).GetTypeInfo().Assembly);
+builder.Services.AddMediatR(typeof(AuthHandler).GetTypeInfo().Assembly);
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -45,6 +46,7 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+builder.Services.AddJwt(builder.Configuration);
 
 var app = builder.Build();
 
