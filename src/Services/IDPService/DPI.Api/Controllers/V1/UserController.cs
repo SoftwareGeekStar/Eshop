@@ -3,11 +3,13 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using IDP.Application.Command.User;
+using Asp.Versioning;
 
 namespace DPI.Api.Controllers.V1
 {
-    [Route("api/V1/user")]
     [ApiController]
+    [ApiVersion(2)]
+    [Route("api/v{v:apiversion}/user")]
     public class UserController : IBaseController
     {
         public readonly IMediator _mediator;
@@ -20,6 +22,7 @@ namespace DPI.Api.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpPost("Insert")]
+        //[MapToApiVersion(1)]
         public async Task<IActionResult> Insert([FromBody] UserCommand userCommand)
         {
             var res = await _mediator.Send(userCommand);
