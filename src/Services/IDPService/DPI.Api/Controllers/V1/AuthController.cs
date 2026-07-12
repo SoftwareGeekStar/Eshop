@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using IDP.Application.Command.User;
 using Asp.Versioning;
 using IDP.Application.Query.Auth;
+using IDP.Application.Command.Auth;
 
 namespace DPI.Api.Controllers.V1
 {
@@ -24,6 +25,13 @@ namespace DPI.Api.Controllers.V1
         public async Task<IActionResult> Login([FromBody] AuthQuery authQuery)
         {
             var res = await _mediator.Send(authQuery);
+            return Ok(res);
+        }
+        
+        [HttpPost("RegisterAndSendOtp")]
+        public async Task<IActionResult> RegisterAndSendOtp([FromBody] AuthCommand authCommand)
+        {
+            var res = await _mediator.Send(authCommand);
             return Ok(res);
         }
     }

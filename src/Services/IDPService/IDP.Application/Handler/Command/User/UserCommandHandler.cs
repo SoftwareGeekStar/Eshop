@@ -8,7 +8,7 @@ using MediatR;
 
 namespace IDP.Application.Handler.Command.User
 {
-    public class AuthHandler : IRequestHandler<UserCommand, bool>
+    public class UserCommandHandler : IRequestHandler<UserCommand, bool>
     {
         public async Task<bool> Handle(UserCommand request, CancellationToken cancellationToken)
         {

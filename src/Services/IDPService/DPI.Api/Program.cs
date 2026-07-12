@@ -1,10 +1,13 @@
 using Asp.Versioning;
 using Auth;
 using IDP.Application.Handler.Command.User;
+using IDP.Domain.IRepository.Command;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
+using IDP.Infra.Repository.Command;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +31,16 @@ builder.Services.AddSwaggerGen(Options =>
     });
 });
 
-builder.Services.AddMediatR(typeof(AuthHandler).GetTypeInfo().Assembly);
+builder.Services.AddMediatR(typeof(UserCommandHandler).GetTypeInfo().Assembly);
 
+#region redisconfig
+builder.Services.AddStackExchangeRedisCache(option =>
+{
+    option.Configuration = builder.Configuration.GetValue<string>("CashSetting:RedisUrl");
+});
+#endregion
+
+builder.Services.AddScoped<IOtpRedisRepository, OtpRedisRepository>();
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1);
